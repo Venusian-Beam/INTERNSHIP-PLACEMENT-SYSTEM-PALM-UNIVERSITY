@@ -1,0 +1,193 @@
+/**
+ * Icons from react-icons (Tabler set), behind one small API: <Icon name="mail" />.
+ * Decorative by default (aria-hidden); pass a label when an icon stands alone.
+ */
+import Image from "next/image";
+import type { IconType } from "react-icons";
+import logoGreen from "../../public/brand/palm-logo-green.png";
+import logoWhite from "../../public/brand/palm-logo-white.png";
+import {
+  TbAlertCircle,
+  TbAlertTriangle,
+  TbArrowLeft,
+  TbArrowRight,
+  TbArrowUpRight,
+  TbBell,
+  TbBolt,
+  TbBook,
+  TbBriefcase,
+  TbBuilding,
+  TbBuildingCommunity,
+  TbCalendar,
+  TbCalendarStats,
+  TbCertificate,
+  TbChartBar,
+  TbChartDonut,
+  TbChartLine,
+  TbCheck,
+  TbChecklist,
+  TbChevronDown,
+  TbChevronLeft,
+  TbChevronRight,
+  TbCircleCheck,
+  TbClipboardList,
+  TbClock,
+  TbCopy,
+  TbDots,
+  TbDownload,
+  TbExternalLink,
+  TbEye,
+  TbEyeOff,
+  TbFileCertificate,
+  TbFileDownload,
+  TbFileStack,
+  TbFileText,
+  TbFileUpload,
+  TbFilter,
+  TbFolder,
+  TbHeartbeat,
+  TbHelpCircle,
+  TbHistory,
+  TbHome,
+  TbHourglass,
+  TbInbox,
+  TbInfoCircle,
+  TbKey,
+  TbLayoutDashboard,
+  TbLayoutGrid,
+  TbListCheck,
+  TbLock,
+  TbLogout,
+  TbMail,
+  TbMailForward,
+  TbMailOpened,
+  TbMaximize,
+  TbMenu2,
+  TbMessageCircle,
+  TbPlus,
+  TbProgressCheck,
+  TbRefresh,
+  TbReportAnalytics,
+  TbSchool,
+  TbSearch,
+  TbSend,
+  TbSettings,
+  TbShieldCheck,
+  TbStack2,
+  TbTable,
+  TbTerminal2,
+  TbTrendingDown,
+  TbTrendingUp,
+  TbUpload,
+  TbUser,
+  TbUserCheck,
+  TbUserPlus,
+  TbUsers,
+  TbUsersGroup,
+  TbX,
+} from "react-icons/tb";
+
+const icons = {
+  menu: TbMenu2,
+  close: TbX,
+  search: TbSearch,
+  chevronRight: TbChevronRight,
+  chevronLeft: TbChevronLeft,
+  chevronDown: TbChevronDown,
+  arrowRight: TbArrowRight,
+  arrowLeft: TbArrowLeft,
+  arrowUpRight: TbArrowUpRight,
+  doc: TbFileText,
+  docs: TbFileStack,
+  people: TbUsers,
+  team: TbUsersGroup,
+  mail: TbMail,
+  mailOpen: TbMailOpened,
+  mailForward: TbMailForward,
+  cap: TbSchool,
+  building: TbBuilding,
+  buildings: TbBuildingCommunity,
+  briefcase: TbBriefcase,
+  check: TbCheck,
+  checkCircle: TbCircleCheck,
+  checklist: TbChecklist,
+  listCheck: TbListCheck,
+  progress: TbProgressCheck,
+  clock: TbClock,
+  hourglass: TbHourglass,
+  history: TbHistory,
+  alert: TbAlertTriangle,
+  alertCircle: TbAlertCircle,
+  info: TbInfoCircle,
+  help: TbHelpCircle,
+  upload: TbUpload,
+  fileUpload: TbFileUpload,
+  download: TbDownload,
+  fileDownload: TbFileDownload,
+  logout: TbLogout,
+  settings: TbSettings,
+  inbox: TbInbox,
+  copy: TbCopy,
+  external: TbExternalLink,
+  plus: TbPlus,
+  home: TbHome,
+  dashboard: TbLayoutDashboard,
+  grid: TbLayoutGrid,
+  user: TbUser,
+  userCheck: TbUserCheck,
+  userPlus: TbUserPlus,
+  folder: TbFolder,
+  send: TbSend,
+  key: TbKey,
+  lock: TbLock,
+  refresh: TbRefresh,
+  terminal: TbTerminal2,
+  chart: TbChartBar,
+  chartLine: TbChartLine,
+  donut: TbChartDonut,
+  report: TbReportAnalytics,
+  clipboard: TbClipboardList,
+  shield: TbShieldCheck,
+  bell: TbBell,
+  bolt: TbBolt,
+  book: TbBook,
+  certificate: TbCertificate,
+  fileCertificate: TbFileCertificate,
+  calendar: TbCalendar,
+  calendarStats: TbCalendarStats,
+  heartbeat: TbHeartbeat,
+  trendUp: TbTrendingUp,
+  trendDown: TbTrendingDown,
+  table: TbTable,
+  maximize: TbMaximize,
+  dots: TbDots,
+  eye: TbEye,
+  eyeOff: TbEyeOff,
+  filter: TbFilter,
+  stack: TbStack2,
+  message: TbMessageCircle,
+} satisfies Record<string, IconType>;
+
+export type IconName = keyof typeof icons;
+
+export function Icon({ name, className = "size-4", label }: { name: IconName; className?: string; label?: string }) {
+  const C = icons[name];
+  return <C className={`flex-none ${className}`} role={label ? "img" : undefined} aria-label={label} aria-hidden={label ? undefined : true} />;
+}
+
+/**
+ * Palm Career Services crest (UI-D1). Green on white surfaces (dashboards, headers); white on the green
+ * sign-in panel. Decorative: the name "Palm Career Services" is always written next to it.
+ */
+export function BrandMark({ className = "size-8", onDark = false }: { className?: string; onDark?: boolean }) {
+  return (
+    <Image
+      src={onDark ? logoWhite : logoGreen}
+      alt=""
+      aria-hidden
+      className={`flex-none object-contain ${className}`}
+      sizes="96px"
+      priority
+    />
+  );
+}

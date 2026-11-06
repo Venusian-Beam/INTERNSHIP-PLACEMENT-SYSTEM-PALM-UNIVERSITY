@@ -1,0 +1,115 @@
+@import "tailwindcss";
+@import "../theme/tokens.css";
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-text: var(--ink-text);
+  --color-ink-muted: var(--ink-muted);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-bright: var(--brand-bright);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --font-sans: var(--font-ui);
+  --font-serif: var(--font-ui);
+}
+
+html {
+  background: var(--canvas);
+}
+
+body {
+  background: var(--canvas);
+  color: var(--text);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--brand-soft);
+}
+
+/* Native select arrow replaced so selects match inputs. */
+select:not([multiple]) {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%2359635d' stroke-width='1.6' viewBox='0 0 12 12'%3E%3Cpath d='m3 4.5 3 3 3-3'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  padding-right: 2rem;
+}
+
+/* Hide the disclosure triangle on <summary> menus. */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Letter template editor (components/template-editor): looks like the printed letter. */
+.tpl-doc {
+  outline: none;
+  min-height: 640px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #141414;
+}
+.tpl-doc p { margin: 0 0 10px; }
+.tpl-doc h1 { font-size: 20px; font-weight: 700; margin: 0 0 10px; }
+.tpl-doc h2 { font-size: 16px; font-weight: 700; margin: 0 0 8px; }
+.tpl-doc ul { list-style: disc; padding-left: 24px; margin: 0 0 10px; }
+.tpl-doc ol { list-style: decimal; padding-left: 24px; margin: 0 0 10px; }
+.tpl-doc img { display: inline-block; max-width: 100%; height: auto; }
+.tpl-doc table { border-collapse: collapse; margin: 6px 0 12px; width: 100%; }
+.tpl-doc td, .tpl-doc th { border: 1px dashed #cfd4dc; padding: 4px 8px; vertical-align: top; }
+.tpl-doc .tpl-field {
+  display: inline-block;
+  padding: 0 7px;
+  margin: 0 1px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--c-indigo) 12%, white);
+  color: #3730a3;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  white-space: nowrap;
+}
+.tpl-doc .tpl-signature {
+  display: inline-block;
+  padding: 12px 22px;
+  border: 1.5px dashed #db2777;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--c-pink) 8%, white);
+  color: #be185d;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+}
+.tpl-doc .ProseMirror-selectednode { outline: 2px solid var(--c-indigo); outline-offset: 1px; }

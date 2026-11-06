@@ -1,0 +1,29 @@
+# Root-level ignores (each app also has its own .gitignore)
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.vercel/
+*.log
+# Never commit secrets (NFR-S8)
+.env
+.env.*
+!.env.example
+
+# Local developer logs (sign-in codes, emails sent) written by the API when APP_ENV=local
+logs/
+
+# Exclude reference images, working notes and skills
+Reference images/
+Reference images
+skills/
+
+# Dependencies and caches
+node_modules/
+vendor/
+.next/
+dist/
+build/
+*.tsbuildinfo
+

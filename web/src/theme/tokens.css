@@ -1,0 +1,66 @@
+/* Brand theme tokens (UI-D1, UI-D4): white, green and black, with bright accent colours for data.
+   The green is a PLACEHOLDER until the official hex arrives (OQ2): change --brand* here and nowhere else.
+   Light theme only for now; the dark values below are kept for later and switch on with data-theme="dark". */
+:root {
+  --canvas: #f6f7f9;        /* page background */
+  --bg: #ffffff;            /* cards, inputs */
+  --surface: #f4f5f7;       /* hover, subtle fills */
+  --surface-2: #eceef2;
+  --line: #e7e9ee;          /* hairlines */
+  --line-strong: #d5d9e0;   /* inputs */
+  --text: #1d2433;
+  --muted: #667085;
+  --faint: #98a2b3;
+
+  --ink: #101828;           /* near-black (brand black) */
+  --ink-2: #1d2939;
+  --ink-text: #ffffff;
+  --ink-muted: #98a2b3;
+
+  --brand: #15803d;         /* primary actions, links (AA on white) */
+  --brand-strong: #116932;  /* hover */
+  --brand-ink: #ffffff;
+  --brand-soft: #e8f5ec;
+  --brand-bright: #22c55e;
+
+  --warn: #b54708; --warn-soft: #fef6e7;
+  --danger: #d92d20; --danger-soft: #fef3f2;
+  --info: #175cd3; --info-soft: #eff8ff;
+
+  /* Accent colours (data, icons, KPI cards) */
+  --c-blue: #3b82f6;
+  --c-indigo: #6366f1;
+  --c-violet: #8b5cf6;
+  --c-pink: #ec4899;
+  --c-orange: #f97316;
+  --c-amber: #f59e0b;
+  --c-red: #ef4444;
+  --c-teal: #14b8a6;
+  --c-green: #22c55e;
+  --c-sky: #0ea5e9;
+
+  /* Chart slots used by the shared chart components */
+  --s1: var(--c-blue); --s2: var(--c-orange); --s3: var(--c-teal); --s5: var(--c-pink); --s7: var(--c-indigo);
+  --grid: #eef0f3; --axis: #d5d9e0;
+  --paper: #ffffff; /* letters always render on white */
+
+  --radius: 10px;
+  --shadow: 0 1px 2px rgb(16 24 40 / 0.04);
+  --shadow-md: 0 4px 12px -2px rgb(16 24 40 / 0.08);
+  --shadow-lg: 0 16px 32px -8px rgb(16 24 40 / 0.16), 0 2px 6px rgb(16 24 40 / 0.05);
+  color-scheme: light;
+}
+
+/* Dark theme: dormant until the dark design pass (UI-D9). */
+:root[data-theme="dark"] {
+  --canvas: #0b0f14; --bg: #121821; --surface: #18202b; --surface-2: #1f2935;
+  --line: #243040; --line-strong: #34445a;
+  --text: #eef2f6; --muted: #a3afbf; --faint: #6f7d90;
+  --ink: #05080c; --ink-2: #0e141c; --ink-text: #eef2f6; --ink-muted: #8d9aab;
+  --brand: #3dba6e; --brand-strong: #5bd089; --brand-ink: #04140a; --brand-soft: #132a1c; --brand-bright: #46d07e;
+  --warn: #f2b451; --warn-soft: #2a2112; --danger: #f07167; --danger-soft: #2e1718;
+  --info: #8db4ec; --info-soft: #152136;
+  --grid: #1d2530; --axis: #34445a;
+  --shadow: none;
+  color-scheme: dark;
+}

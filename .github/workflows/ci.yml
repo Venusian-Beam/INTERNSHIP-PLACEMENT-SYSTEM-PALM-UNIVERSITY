@@ -1,0 +1,74 @@
+# CI on every pull request (AD17). Deploy and nightly-backup workflows come with the deployment step.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  api:
+    name: API (Laravel · Pest)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: placement_test
+          POSTGRES_USER: placement
+          POSTGRES_PASSWORD: placement_ci
+        ports: ["54329:5432"]
+        options: --health-cmd "pg_isready -U placement" --health-interval 3s --health-retries 20
+      s3:
+        image: rustfs/rustfs:latest
+        env:
+          RUSTFS_ACCESS_KEY: placement
+          RUSTFS_SECRET_KEY: placement_ci_secret
+        ports: ["9000:9000"]
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 54329
+      DB_USERNAME: placement
+      DB_PASSWORD: placement_ci
+      AWS_ACCESS_KEY_ID: placement
+      AWS_SECRET_ACCESS_KEY: placement_ci_secret
+      AWS_DEFAULT_REGION: eu-central-1
+      AWS_BUCKET: placement-files
+      AWS_ENDPOINT: http://127.0.0.1:9000
+      AWS_USE_PATH_STYLE_ENDPOINT: "true"
+    defaults:
+      run:
+        working-directory: api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: mbstring, pdo_pgsql, pgsql, zip, fileinfo, gd
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist
+      - run: cp .env.example .env && php artisan key:generate
+      - run: php artisan storage:prepare
+      - run: vendor/bin/pint --test
+      - run: vendor/bin/pest
+
+  web:
+    name: Web (Next.js · lint, types, build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - run: npm run build

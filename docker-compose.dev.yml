@@ -1,0 +1,34 @@
+# Local development services only. Production uses Neon Postgres, Neon Object Storage and Gmail SMTP (docs/10).
+#   docker compose -f docker-compose.dev.yml up -d
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: placement
+      POSTGRES_USER: placement
+      POSTGRES_PASSWORD: placement_dev_only
+    ports: ["127.0.0.1:54329:5432"]
+    volumes: [dbdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U placement -d placement"]
+      interval: 3s
+      retries: 20
+
+  mail:
+    # Catches every email locally. Inbox UI: http://localhost:8025
+    image: axllent/mailpit:latest
+    ports: ["127.0.0.1:1025:1025", "127.0.0.1:8025:8025"]
+
+  s3:
+    # S3-compatible stand-in for Neon Object Storage (presigned URLs, private bucket).
+    # MinIO's public image was withdrawn, so this uses RustFS (Apache-2.0, S3 API).
+    image: rustfs/rustfs:latest
+    environment:
+      RUSTFS_ACCESS_KEY: placement
+      RUSTFS_SECRET_KEY: placement_dev_only
+    ports: ["127.0.0.1:9000:9000"]
+    volumes: [s3data:/data]
+
+volumes:
+  dbdata:
+  s3data:
