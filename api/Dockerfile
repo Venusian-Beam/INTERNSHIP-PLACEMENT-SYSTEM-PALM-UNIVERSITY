@@ -21,10 +21,11 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Set up storage and cache permissions
 RUN mkdir -p /app/storage/framework/cache /app/storage/framework/sessions /app/storage/framework/views /app/bootstrap/cache \
-    && chmod -R 777 /app/storage /app/bootstrap/cache
+    && chmod -R 777 /app/storage /app/bootstrap/cache \
+    && chmod +x /app/entrypoint.sh
 
 ENV PORT=80
 EXPOSE 80
 
+ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["frankenphp", "run", "--config", "/app/Caddyfile"]
-
