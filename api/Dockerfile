@@ -15,9 +15,9 @@ COPY . /app
 
 WORKDIR /app
 
-# Install production dependencies with Composer
+# Install production dependencies with Composer (no-scripts prevents boot during build)
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --no-scripts --optimize-autoloader --no-interaction
 
 # Set up storage and cache permissions
 RUN mkdir -p /app/storage/framework/cache /app/storage/framework/sessions /app/storage/framework/views /app/bootstrap/cache \
