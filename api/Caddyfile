@@ -1,11 +1,15 @@
 {
-    # Listen on $PORT or default to 80
     http_port {$PORT:80}
 }
 
 :{$PORT:80} {
     root * /app/public
     encode zstd br gzip
+
+    handle_path /backend/* {
+        root * /app/public
+        php_server
+    }
+
     php_server
 }
-

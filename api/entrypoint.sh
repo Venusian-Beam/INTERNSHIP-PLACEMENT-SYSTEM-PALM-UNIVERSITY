@@ -10,3 +10,4 @@ php artisan migrate --force || true
 
 # Start FrankenPHP
 exec "$@"
+
