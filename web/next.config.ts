@@ -21,6 +21,9 @@ const routeCsp = [
 const nextConfig: NextConfig = {
   // cacheComponents off: every page is per-user and authenticated (see context/progress-tracker.md).
   poweredByHeader: false,
+  // Vercel multi-service deploy (vercel.json "services"): /_next/image is routed to the app as a page and 404s,
+  // which broke every <Image>. Serve the (static, local) images directly instead of through the optimizer.
+  images: { unoptimized: true },
   async headers() {
     return [
       {
