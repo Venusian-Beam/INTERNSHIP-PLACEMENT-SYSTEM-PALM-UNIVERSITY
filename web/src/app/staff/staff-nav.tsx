@@ -114,7 +114,8 @@ export function StaffNav({ name, email, isHead, cycleName }: { name: string; ema
               <Icon name="chevronDown" className="size-4 text-muted" />
             </button>
             {menu ? (
-              <div role="menu" className="absolute right-0 mt-2 w-64 overflow-hidden rounded-[var(--radius)] border border-line bg-bg shadow-[var(--shadow-lg)]">
+              // z-50: the nav row below is later in the DOM with positioned (relative) links, which would paint over the menu.
+              <div role="menu" className="absolute right-0 z-50 mt-2 w-64 overflow-hidden rounded-[var(--radius)] border border-line bg-bg shadow-[var(--shadow-lg)]">
                 <div className="border-b border-line px-4 py-3">
                   <p className="text-sm font-semibold">{name}</p>
                   <p className="truncate text-[12.5px] text-muted">{email}</p>

@@ -113,3 +113,12 @@ summary::-webkit-details-marker {
   font-weight: 600;
 }
 .tpl-doc .ProseMirror-selectednode { outline: 2px solid var(--c-indigo); outline-offset: 1px; }
+
+/* Sign-out (and future) confirmation dialogs: a short fade + lift, skipped for reduced motion. */
+@keyframes dialog-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  dialog { animation: none !important; }
+}
