@@ -47,22 +47,19 @@ export function SignOutButton({ className = "", icon = false }: { className?: st
         onCancel={(e) => busy && e.preventDefault()}
         // A click on the backdrop lands on the <dialog> itself (the panel fills it), so it means "cancel".
         onClick={(e) => e.target === e.currentTarget && !busy && setOpen(false)}
-        className="m-auto w-[calc(100%-32px)] max-w-[400px] rounded-[var(--radius)] border border-line bg-bg p-0 text-text shadow-[var(--shadow-lg)] backdrop:bg-[rgb(16_24_40/0.45)] backdrop:backdrop-blur-[2px] open:animate-[dialog-in_160ms_ease-out]"
+        className="m-auto w-[calc(100%-32px)] max-w-[360px] rounded-[var(--radius)] border border-line bg-bg p-0 text-text shadow-[var(--shadow-lg)] backdrop:bg-[rgb(16_24_40/0.45)] backdrop:backdrop-blur-[2px] open:animate-[dialog-in_160ms_ease-out]"
       >
         {open ? (
-          <div className="p-6">
-            <div className="flex items-start gap-3.5">
-              <Icon name="logout" className="mt-0.5 size-6 shrink-0 text-muted" aria-hidden />
-              <div className="min-w-0">
-                <h2 id={`${id}-title`} className="text-[17px] font-semibold tracking-tight">
-                  Sign out?
-                </h2>
-                <p id={`${id}-desc`} className="mt-1.5 text-[14px] leading-relaxed text-muted">
-                  You&apos;ll need to sign in again to continue. Any changes you haven&apos;t saved will be lost.
-                </p>
-              </div>
-            </div>
-            <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+          <div className="flex flex-col items-center px-6 pt-7 pb-6">
+            <Icon name="logout" className="size-8 text-muted" aria-hidden />
+            <h2 id={`${id}-title`} className="mt-3 text-center text-[18px] font-semibold tracking-tight">
+              Sign out?
+            </h2>
+            {/* Justified, with the last line centred so a short final line sits under the title instead of hugging the left. */}
+            <p id={`${id}-desc`} className="mt-2 w-full max-w-[300px] text-justify text-[14px] leading-relaxed text-muted [text-align-last:center] [hyphens:auto]">
+              You&apos;ll need to sign in again to continue, and any unsaved changes will be lost.
+            </p>
+            <div className="mt-6 grid w-full max-w-[300px] grid-cols-2 gap-2.5">
               <Button variant="secondary" onClick={() => setOpen(false)} disabled={busy} autoFocus>
                 Cancel
               </Button>
