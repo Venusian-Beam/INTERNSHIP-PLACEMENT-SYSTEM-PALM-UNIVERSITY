@@ -7,7 +7,7 @@ import { Icon } from "@/components/icons";
 import { Alert, Button, Field, Input } from "@/components/ui";
 import { ApiError, post, session } from "@/lib/api";
 
-type LoginResult = { otp_required?: boolean; challenge?: string; user?: { role: string } };
+type LoginResult = { otp_required?: boolean; challenge?: string; dev_code?: string; user?: { role: string } };
 
 const home = (role: string) => (role === "student" ? "/student" : role === "president" ? "/president" : "/staff");
 
@@ -33,6 +33,8 @@ export function SignInForm({ devTools = false }: { devTools?: boolean }) {
         ? await session<LoginResult>("otp", { challenge, code })
         : await session<LoginResult>("login", { email, password });
       if (res.otp_required && res.challenge) {
+        // Temporary testing aid: present only while the API has EXPOSE_LOGIN_CODES=true.
+        if (res.dev_code) console.info(`%c[IPS test] Sign-in code for ${email}: ${res.dev_code}`, "font-weight:bold;font-size:14px");
         setChallenge(res.challenge);
         return;
       }

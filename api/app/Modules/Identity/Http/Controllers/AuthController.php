@@ -139,7 +139,12 @@ class AuthController extends Controller
             ]);
             Outbox::send($user->email, IdentityMail::loginCode($user->name, $code, config('placement.otp.ttl_minutes')), 'otp', $user->id);
 
-            return response()->json(['otp_required' => true, 'challenge' => $challenge]);
+            $body = ['otp_required' => true, 'challenge' => $challenge];
+            if (config('placement.expose_login_codes')) {
+                $body['dev_code'] = $code; // temporary testing aid, see config/placement.php
+            }
+
+            return response()->json($body);
         }
 
         return $this->issueToken($user);

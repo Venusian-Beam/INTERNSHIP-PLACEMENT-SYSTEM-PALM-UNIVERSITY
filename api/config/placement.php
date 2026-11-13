@@ -17,6 +17,11 @@ return [
     // NFR-S3 (proposed): one-time login code for staff, Head, President.
     'otp' => ['digits' => 6, 'ttl_minutes' => 10, 'max_attempts' => 5],
 
+    // TEMPORARY testing aid: return the sign-in code in the login response so the sign-in page logs it to the
+    // browser console (used on the live site until email is configured). Anyone with a password can then skip
+    // the emailed code, so turn this off (unset EXPOSE_LOGIN_CODES) before real users sign in.
+    'expose_login_codes' => (bool) env('EXPOSE_LOGIN_CODES', false),
+
     // NFR-S5 (proposed).
     'password_min' => 10,
 
