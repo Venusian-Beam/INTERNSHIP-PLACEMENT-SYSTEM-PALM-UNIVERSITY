@@ -27,3 +27,6 @@ dist/
 build/
 *.tsbuildinfo
 
+
+# Local handoff notes (contain secrets)
+HANDOFF.md
