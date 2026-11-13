@@ -1,4 +1,5 @@
 import { BrandMark } from "@/components/icons";
+import { SessionWatch } from "@/components/session-watch";
 import { requireRole } from "@/lib/server/require";
 import { StudentMenu } from "./student-menu";
 
@@ -7,6 +8,7 @@ export default async function StudentLayout({ children }: LayoutProps<"/student"
   const me = await requireRole(["student"]);
   return (
     <div className="flex min-h-full flex-1 flex-col">
+      <SessionWatch />
       <header className="sticky top-0 z-20 border-b border-line bg-bg/95 backdrop-blur">
         <div className="relative mx-auto flex h-[60px] w-full max-w-xl items-center gap-3 px-4">
           <BrandMark className="size-11" />

@@ -1,4 +1,5 @@
 import { BrandMark, Icon } from "@/components/icons";
+import { SessionWatch } from "@/components/session-watch";
 import { SignOutButton } from "@/components/sign-out-button";
 import { requireRole } from "@/lib/server/require";
 
@@ -7,6 +8,7 @@ export default async function PresidentLayout({ children }: LayoutProps<"/presid
   const me = await requireRole(["president"]);
   return (
     <div className="flex min-h-full flex-1 flex-col">
+      <SessionWatch />
       <header className="border-b border-line bg-bg">
         <div className="mx-auto flex h-[60px] w-full max-w-[1200px] items-center justify-between gap-4 px-4 sm:px-6">
           <span className="flex items-center gap-2.5">

@@ -11,8 +11,10 @@ const notices: Record<string, { tone: "ok" | "bad" | "info"; text: string }> = {
 };
 
 export default async function SignInPage({ searchParams }: PageProps<"/sign-in">) {
-  const { verified, expired } = await searchParams;
-  const notice = expired ? { tone: "info" as const, text: "Your session has ended. Please sign in again." } : typeof verified === "string" ? notices[verified] : undefined;
+  const { verified, expired, replaced } = await searchParams;
+  const notice = replaced
+    ? { tone: "info" as const, text: "You were signed out because your account was signed in on another device. The system can be used on one device at a time." }
+    : expired ? { tone: "info" as const, text: "Your session has ended. Please sign in again." } : typeof verified === "string" ? notices[verified] : undefined;
   return (
     <div className="grid gap-4">
       {notice ? <Alert tone={notice.tone}>{notice.text}</Alert> : null}

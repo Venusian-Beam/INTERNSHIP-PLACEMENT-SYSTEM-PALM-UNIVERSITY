@@ -38,6 +38,21 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
 }
 
 let redirecting = false;
+
+/**
+ * Asks the API whether this browser's session is still valid. If it ended, sends the user to sign in with the reason:
+ * `replaced` when the account signed in on another device (one device at a time), otherwise `expired`.
+ * Never signs anyone out itself; a network error leaves the page alone.
+ */
+export async function checkSession(): Promise<void> {
+  if (typeof window === "undefined" || redirecting || PUBLIC_PAGE.test(window.location.pathname)) return;
+  const res = await fetch("/api/proxy/auth/me", { headers: { Accept: "application/json" }, cache: "no-store" }).catch(() => null);
+  if (res?.status !== 401 || redirecting || PUBLIC_PAGE.test(window.location.pathname)) return;
+  const body = (await res.json().catch(() => ({}))) as { code?: string };
+  redirecting = true;
+  // A full page load on purpose: it drops every piece of in-memory state from the ended session.
+  window.location.assign(body.code === "session_replaced" ? "/sign-in?replaced=1" : "/sign-in?expired=1");
+}
 const PUBLIC_PAGE = /^\/(sign-in|register|verify-email|reset-password|accept-invite|login-code)(\/|$)/;
 
 /**
@@ -51,15 +66,7 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
     return await request<T>(`/api/proxy/${path.replace(/^\//, "")}`, init);
   } catch (e) {
     if (e instanceof ApiError && e.status === 401 && typeof window !== "undefined" && !redirecting && !PUBLIC_PAGE.test(window.location.pathname)) {
-      const now = await fetch("/api/proxy/auth/me", { headers: { Accept: "application/json" }, cache: "no-store" })
-        .then((r) => r.status)
-        .catch(() => 0);
-      if (now === 401 && !redirecting && !PUBLIC_PAGE.test(window.location.pathname)) {
-        redirecting = true;
-        // A full page load on purpose: it drops every piece of in-memory state from the ended session.
-        // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-        window.location.assign(`/sign-in?expired=1`);
-      }
+      await checkSession();
     }
     throw e;
   }

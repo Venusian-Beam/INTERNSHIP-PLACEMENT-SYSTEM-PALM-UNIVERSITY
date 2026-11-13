@@ -1,3 +1,4 @@
+import { SessionWatch } from "@/components/session-watch";
 import { requireRole } from "@/lib/server/require";
 import { StaffNav } from "./staff-nav";
 import { StaffUserProvider } from "./staff-user";
@@ -10,6 +11,7 @@ export default async function StaffLayout({ children }: LayoutProps<"/staff">) {
   return (
     <StaffUserProvider user={{ name: me.name, email: me.email, role }}>
       <div className="flex min-h-full flex-1 flex-col">
+        <SessionWatch />
         <StaffNav name={me.name} email={me.email} isHead={role === "head"} cycleName={me.cycle?.name ?? null} />
         <main className="mx-auto w-full max-w-[1400px] flex-1 px-4 py-6 sm:px-6">{children}</main>
       </div>

@@ -77,6 +77,21 @@ describe('FR-A5 login', function () {
             ->assertOk()->assertJsonStructure(['token', 'user' => ['role']])->assertJsonPath('user.role', 'student');
     });
 
+    it('allows one device at a time: a new sign-in ends the other session and says why', function () {
+        $u = makeUser('student', ['password' => 'Secret12345']);
+        $login = fn () => $this->postJson('/api/auth/login', ['email' => $u->email, 'password' => 'Secret12345'])->json('token');
+        $first = $login();
+        $second = $login();
+
+        $this->app['auth']->forgetGuards();
+        $this->withToken($first)->getJson('/api/auth/me')->assertUnauthorized()->assertJsonPath('code', 'session_replaced');
+        $this->app['auth']->forgetGuards();
+        $this->withToken($second)->getJson('/api/auth/me')->assertOk();
+        // A made-up or plain expired token gets the ordinary answer, without a reason.
+        $this->app['auth']->forgetGuards();
+        $this->withToken('999999|nope')->getJson('/api/auth/me')->assertUnauthorized()->assertJsonMissingPath('code');
+    });
+
     it('blocks unverified students and deactivated accounts', function () {
         $u = makeUser('student', ['password' => 'Secret12345', 'email_verified_at' => null]);
         $this->postJson('/api/auth/login', ['email' => $u->email, 'password' => 'Secret12345'])->assertForbidden()->assertJsonPath('code', 'unverified');

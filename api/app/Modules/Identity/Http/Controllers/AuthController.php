@@ -107,6 +107,9 @@ class AuthController extends Controller
     }
 
     /** FR-A5: password, then (for staff, Head, President) an emailed one-time code. */
+    /** Name given to a session token that was ended because the account signed in on another device. */
+    public const REPLACED_TOKEN = 'replaced';
+
     public function login(Request $request): JsonResponse
     {
         $data = $request->validate(['email' => ['required', 'email'], 'password' => ['required', 'string']]);
@@ -253,6 +256,12 @@ class AuthController extends Controller
     private function issueToken(User $user): JsonResponse
     {
         $user->forceFill(['last_login_at' => now()])->save();
+
+        // One device at a time: signing in ends every other session for this account. The old tokens are kept
+        // (expired, renamed "replaced") for a day so the other device is told why it was signed out (bootstrap/app.php).
+        $user->tokens()->where('name', self::REPLACED_TOKEN)->where('updated_at', '<', now()->subDay())->delete();
+        $user->tokens()->where('name', 'web')->update(['name' => self::REPLACED_TOKEN, 'expires_at' => now(), 'updated_at' => now()]);
+
         $token = $user->createToken('web', ['*'], now()->addMinutes((int) config('sanctum.expiration')))->plainTextToken;
 
         // The Next.js server stores this in an HttpOnly cookie; it never reaches browser JavaScript (AD8).
